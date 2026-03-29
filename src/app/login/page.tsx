@@ -11,7 +11,7 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 to-purple-600 p-4">
       <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl p-8">
-        <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">
+        <h1 className="text-3xl font-bold text-center text-gray-900 mb-6 drop-shadow-sm">
           Selamat Datang
         </h1>
 
@@ -20,9 +20,9 @@ export default function LoginPage() {
           <button
             role="tab"
             aria-selected={activeTab === 'teacher'}
-            className={`flex-1 py-3 text-sm font-semibold rounded-xl transition-all ${
+            className={`flex-1 py-3 text-sm font-semibold rounded-xl transition-all min-h-[44px] ${
               activeTab === 'teacher'
-                ? 'bg-white text-blue-600 shadow-sm'
+                ? 'bg-white text-indigo-600 shadow-sm'
                 : 'text-gray-500 hover:text-gray-700'
             }`}
             onClick={() => setActiveTab('teacher')}
@@ -32,7 +32,7 @@ export default function LoginPage() {
           <button
             role="tab"
             aria-selected={activeTab === 'student'}
-            className={`flex-1 py-3 text-sm font-semibold rounded-xl transition-all ${
+            className={`flex-1 py-3 text-sm font-semibold rounded-xl transition-all min-h-[44px] ${
               activeTab === 'student'
                 ? 'bg-white text-purple-600 shadow-sm'
                 : 'text-gray-500 hover:text-gray-700'
@@ -58,7 +58,7 @@ export default function LoginPage() {
                 name="email"
                 type="email"
                 required
-                className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-lg"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-base bg-white"
                 placeholder="cikgu@sekolah.edu.my"
               />
             </div>
@@ -75,14 +75,14 @@ export default function LoginPage() {
                 name="password"
                 type="password"
                 required
-                className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-lg"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-base bg-white"
                 placeholder="••••••••"
               />
             </div>
 
             <button
               type="submit"
-              className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg rounded-xl transition-colors"
+              className="w-full py-3 min-h-[44px] bg-blue-500 hover:bg-blue-600 hover:scale-105 active:scale-95 text-white text-lg font-bold rounded-xl shadow-md transition-all"
             >
               Log Masuk
             </button>
@@ -92,12 +92,12 @@ export default function LoginPage() {
         {/* Student Login Link */}
         {activeTab === 'student' && (
           <div className="text-center space-y-4">
-            <p className="text-gray-600 text-lg">
+            <p className="text-gray-600 text-base">
               Pelajar log masuk dengan avatar dan PIN
             </p>
             <a
               href="/login/student"
-              className="inline-block w-full py-4 bg-purple-600 hover:bg-purple-700 text-white font-bold text-lg rounded-xl transition-colors text-center"
+              className="inline-block flex items-center justify-center w-full min-h-[64px] bg-purple-600 hover:bg-purple-700 hover:scale-105 active:scale-95 text-white text-2xl font-extrabold rounded-2xl shadow-lg transition-all text-center"
             >
               Log Masuk Pelajar
             </a>

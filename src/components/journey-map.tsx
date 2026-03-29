@@ -109,7 +109,7 @@ export function JourneyMap({
           >
             {/* Connector line to next node */}
             {index > 0 && (
-              <div className="w-1 h-4 -mt-4 mb-2 bg-gray-300 rounded-full" />
+              <div className="w-[2px] h-8 -mt-2 mb-2 bg-white/30 rounded-full shadow-inner" />
             )}
 
             <NodeCircle node={node} onTap={onNodeTap} />
