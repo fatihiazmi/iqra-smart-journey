@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo } from 'react'
+import { useMemo, useEffect, useRef } from 'react'
 import { buildJourneyNodes, type JourneyNode, type NodeStatus } from '@/lib/journey'
 
 interface JourneyMapProps {
@@ -17,7 +17,7 @@ function Stars({ count }: { count: number }) {
       {[0, 1, 2].map((i) => (
         <span
           key={i}
-          className={`text-xs ${i < count ? 'text-yellow-400' : 'text-gray-400/40'}`}
+          className={`text-xs ${i < count ? 'text-yellow-400' : 'text-white/20'}`}
         >
           ★
         </span>
@@ -71,7 +71,6 @@ function NodeCircle({
   )
 }
 
-// Duolingo-style zigzag offset for visual interest
 function zigzagOffset(index: number): string {
   const offsets = ['translate-x-0', '-translate-x-8', 'translate-x-8', '-translate-x-4', 'translate-x-4']
   return offsets[index % offsets.length]
@@ -84,6 +83,8 @@ export function JourneyMap({
   pagesPerLevel,
   onNodeTap,
 }: JourneyMapProps) {
+  const activeRef = useRef<HTMLDivElement>(null)
+
   const nodes = useMemo(
     () =>
       buildJourneyNodes(totalLevels, {
@@ -94,40 +95,41 @@ export function JourneyMap({
     [totalLevels, currentLevel, currentPage, pagesPerLevel]
   )
 
-  // Reverse so current/active node is near the bottom (Duolingo-style scroll up)
-  const reversedNodes = useMemo(() => [...nodes].reverse(), [nodes])
+  // Auto-scroll to active node on mount
+  useEffect(() => {
+    if (activeRef.current) {
+      activeRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }
+  }, [])
 
   return (
-    <div className="flex flex-col items-center gap-6 py-8 px-4 overflow-y-auto">
-      {reversedNodes.map((node, index) => {
-        const reversedIndex = reversedNodes.length - 1 - index
+    <div className="flex flex-col items-center gap-4 py-4 px-4 w-full">
+      {nodes.map((node, index) => (
+        <div
+          key={node.id}
+          ref={node.status === 'active' ? activeRef : undefined}
+          className={`flex flex-col items-center transition-transform duration-300 ${zigzagOffset(index)}`}
+        >
+          {/* Connector line */}
+          {index > 0 && (
+            <div className="w-[2px] h-6 -mt-1 mb-1 bg-white/30 rounded-full" />
+          )}
 
-        return (
-          <div
-            key={node.id}
-            className={`flex flex-col items-center transition-transform duration-300 ${zigzagOffset(reversedIndex)}`}
-          >
-            {/* Connector line to next node */}
-            {index > 0 && (
-              <div className="w-[2px] h-8 -mt-2 mb-2 bg-white/30 rounded-full shadow-inner" />
-            )}
+          <NodeCircle node={node} onTap={onNodeTap} />
 
-            <NodeCircle node={node} onTap={onNodeTap} />
+          {/* Stars for level nodes */}
+          {node.type === 'level' && node.stars !== undefined && (
+            <Stars count={node.stars} />
+          )}
 
-            {/* Stars for level nodes */}
-            {node.type === 'level' && node.stars !== undefined && (
-              <Stars count={node.stars} />
-            )}
-
-            {/* Label */}
-            <span className="text-xs text-white/70 mt-1 font-medium">
-              {node.type === 'review'
-                ? 'Ulang Kaji'
-                : `Tahap ${node.level + 1}`}
-            </span>
-          </div>
-        )
-      })}
+          {/* Label */}
+          <span className="text-xs text-white/70 mt-0.5 font-medium">
+            {node.type === 'review'
+              ? 'Ulang Kaji'
+              : `Tahap ${node.level + 1}`}
+          </span>
+        </div>
+      ))}
     </div>
   )
 }
