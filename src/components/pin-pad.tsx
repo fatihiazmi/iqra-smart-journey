@@ -4,14 +4,20 @@ import { useState, useCallback, useRef, useEffect } from 'react'
 
 interface PinPadProps {
   onComplete: (pin: string) => void
+  resetKey?: number
 }
 
 const PIN_LENGTH = 4
 
-export function PinPad({ onComplete }: PinPadProps) {
+export function PinPad({ onComplete, resetKey }: PinPadProps) {
   const [digits, setDigits] = useState<string[]>([])
   const onCompleteRef = useRef(onComplete)
   onCompleteRef.current = onComplete
+
+  // Reset digits when resetKey changes (e.g., after failed login)
+  useEffect(() => {
+    setDigits([])
+  }, [resetKey])
 
   useEffect(() => {
     if (digits.length === PIN_LENGTH) {

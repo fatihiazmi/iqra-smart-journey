@@ -24,15 +24,21 @@ export async function studentLogin(
     .maybeSingle()
 
   if (error || !profile) {
+    console.error('[student-login] Profile lookup failed:', error)
     return { error: 'Cuba lagi!' }
   }
+
+  console.log('[student-login] Found profile:', profile.id)
 
   // Get the student's email from auth.users
   const { data: authUser, error: authError } = await adminSupabase.auth.admin.getUserById(profile.id)
 
   if (authError || !authUser?.user?.email) {
+    console.error('[student-login] Auth user lookup failed:', authError)
     return { error: 'Cuba lagi!' }
   }
+
+  console.log('[student-login] Auth user email:', authUser.user.email)
 
   // Sign in as the student using their actual email + PIN as password
   const supabase = await createClient()
@@ -42,6 +48,7 @@ export async function studentLogin(
   })
 
   if (signInError) {
+    console.error('[student-login] Sign-in failed:', signInError.message)
     return { error: 'Cuba lagi!' }
   }
 

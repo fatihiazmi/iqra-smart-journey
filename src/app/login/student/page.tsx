@@ -11,6 +11,7 @@ export default function StudentLoginPage() {
   const [step, setStep] = useState<Step>('avatar')
   const [selectedAvatar, setSelectedAvatar] = useState<string | undefined>()
   const [error, setError] = useState<string | undefined>()
+  const [resetKey, setResetKey] = useState(0)
   const [isPending, startTransition] = useTransition()
 
   function handleAvatarSelect(avatarId: string) {
@@ -27,6 +28,7 @@ export default function StudentLoginPage() {
       const result = await studentLogin(selectedAvatar, pin)
       if (result?.error) {
         setError(result.error)
+        setResetKey((k) => k + 1)
       }
     })
   }
@@ -56,7 +58,7 @@ export default function StudentLoginPage() {
             Masukkan PIN
           </h1>
 
-          <PinPad onComplete={handlePinComplete} />
+          <PinPad onComplete={handlePinComplete} resetKey={resetKey} />
 
           {error && (
             <p className="text-lg font-bold text-red-200 animate-bounce">
