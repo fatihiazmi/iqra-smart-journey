@@ -4,10 +4,19 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const navItems = [
-  { href: "/learn", icon: "📖", label: "Belajar" },
-  { href: "/learn/activity", icon: "🎨", label: "Warna" },
-  { href: "/learn/gallery", icon: "🏆", label: "Galeri" },
+  { href: "/learn", icon: "\u{1F4D6}", label: "Belajar" },
+  { href: "/learn/activity", icon: "\u{1F3A8}", label: "Warna" },
+  { href: "/learn/gallery", icon: "\u{1F3C6}", label: "Galeri" },
 ];
+
+function PlayerStats({ stars = 0, streak = 0 }: { stars?: number; streak?: number }) {
+  return (
+    <div className="flex items-center gap-4 text-white text-lg font-bold">
+      <span>{"\u2B50"} {stars}</span>
+      <span>{"\u{1F525}"} {streak}</span>
+    </div>
+  );
+}
 
 export default function LearnLayout({
   children,
@@ -16,17 +25,18 @@ export default function LearnLayout({
 }) {
   const pathname = usePathname();
 
+  // TODO: fetch real stars/streak from student progress
+  const stars = 0;
+  const streak = 0;
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-sky-400 to-indigo-600 flex flex-col">
       {/* Header */}
       <header className="flex items-center justify-between px-4 py-3">
         <span className="text-4xl" role="img" aria-label="avatar">
-          🐰
+          {"\u{1F430}"}
         </span>
-        <div className="flex items-center gap-4 text-white text-lg font-bold">
-          <span>⭐ 0</span>
-          <span>🔥 0</span>
-        </div>
+        <PlayerStats stars={stars} streak={streak} />
       </header>
 
       {/* Main content */}
