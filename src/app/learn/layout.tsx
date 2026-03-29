@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
 
 const navItems = [
   { href: "/learn", icon: "\u{1F4D6}", label: "Belajar" },
@@ -24,10 +25,17 @@ export default function LearnLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const router = useRouter();
 
   // TODO: fetch real stars/streak from student progress
   const stars = 0;
   const streak = 0;
+
+  const handleLogout = async () => {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    router.push("/login");
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-sky-400 to-indigo-600 flex flex-col">
@@ -37,6 +45,12 @@ export default function LearnLayout({
           {"\u{1F430}"}
         </span>
         <PlayerStats stars={stars} streak={streak} />
+        <button
+          onClick={handleLogout}
+          className="text-white/70 hover:text-white text-sm px-3 py-2 rounded-xl bg-white/10 min-h-[44px]"
+        >
+          Keluar
+        </button>
       </header>
 
       {/* Main content */}
