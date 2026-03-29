@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { LogoutButton } from "@/components/logout-button";
 
 const navLinks = [
   { href: "/dashboard", label: "Overview" },
@@ -18,7 +19,10 @@ export default function DashboardLayout({
     <div className="min-h-screen bg-gray-100 flex flex-col">
       {/* Header */}
       <header className="bg-white border-b border-gray-200 px-6 py-4">
-        <h1 className="text-xl font-bold text-gray-900">ISJ Dashboard</h1>
+        <div className="flex items-center justify-between">
+          <h1 className="text-xl font-bold text-gray-900">ISJ Dashboard</h1>
+          <LogoutButton />
+        </div>
         <nav className="mt-2 flex gap-4">
           {navLinks.map((link) => (
             <Link

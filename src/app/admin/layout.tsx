@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { LogoutButton } from "@/components/logout-button";
 
 const navLinks = [
   { href: "/admin", label: "Content" },
@@ -15,7 +16,10 @@ export default function AdminLayout({
     <div className="min-h-screen bg-gray-100 flex flex-col">
       {/* Header */}
       <header className="bg-indigo-700 px-6 py-4">
-        <h1 className="text-xl font-bold text-white">ISJ Admin</h1>
+        <div className="flex items-center justify-between">
+          <h1 className="text-xl font-bold text-white">ISJ Admin</h1>
+          <LogoutButton className="text-sm text-indigo-200 hover:text-white transition-colors" />
+        </div>
         <nav className="mt-2 flex gap-4">
           {navLinks.map((link) => (
             <Link
