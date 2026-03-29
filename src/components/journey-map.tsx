@@ -120,7 +120,7 @@ export function JourneyMap({
             )}
 
             {/* Label */}
-            <span className="text-xs text-gray-500 mt-1 font-medium">
+            <span className="text-xs text-white/70 mt-1 font-medium">
               {node.type === 'review'
                 ? 'Ulang Kaji'
                 : `Tahap ${node.level + 1}`}
