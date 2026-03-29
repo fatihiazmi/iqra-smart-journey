@@ -6,6 +6,7 @@ const navLinks = [
   { href: "/dashboard/students", label: "Students" },
   { href: "/dashboard/worksheets", label: "Worksheets" },
   { href: "/dashboard/analytics", label: "Analytics" },
+  { href: "/dashboard/parents", label: "Parents" },
 ];
 
 export default function DashboardLayout({
