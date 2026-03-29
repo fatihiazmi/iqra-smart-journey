@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { buildJourneyNodes, type JourneyNode } from '../journey'
+import { buildJourneyNodes, type JourneyNode, type NodeType } from '../journey'
 
 describe('buildJourneyNodes', () => {
   it('creates level nodes for each level from 0 to totalLevels-1', () => {
@@ -9,9 +9,9 @@ describe('buildJourneyNodes', () => {
       pagesPerLevel: 5,
     })
 
-    const levelNodes = nodes.filter((n) => n.type === 'level')
+    const levelNodes = nodes.filter((n: JourneyNode) => n.type === 'level')
     expect(levelNodes).toHaveLength(4)
-    expect(levelNodes.map((n) => n.level)).toEqual([0, 1, 2, 3])
+    expect(levelNodes.map((n: JourneyNode) => n.level)).toEqual([0, 1, 2, 3])
   })
 
   it('inserts review nodes after every 2 levels (after level 1, 3, 5...)', () => {
@@ -21,7 +21,7 @@ describe('buildJourneyNodes', () => {
       pagesPerLevel: 5,
     })
 
-    const reviewNodes = nodes.filter((n) => n.type === 'review')
+    const reviewNodes = nodes.filter((n: JourneyNode) => n.type === 'review')
     // After level 1 (reviews 0,1), after level 3 (reviews 0-3), after level 5 (reviews 0-5)
     expect(reviewNodes).toHaveLength(3)
 
@@ -37,7 +37,7 @@ describe('buildJourneyNodes', () => {
       pagesPerLevel: 5,
     })
 
-    const activeNodes = nodes.filter((n) => n.status === 'active')
+    const activeNodes = nodes.filter((n: JourneyNode) => n.status === 'active')
     expect(activeNodes).toHaveLength(1)
     expect(activeNodes[0].type).toBe('level')
     expect(activeNodes[0].level).toBe(2)
@@ -78,7 +78,7 @@ describe('buildJourneyNodes', () => {
       pagesPerLevel: 5,
     })
 
-    const reviewNodes = nodes.filter((n) => n.type === 'review')
+    const reviewNodes = nodes.filter((n: JourneyNode) => n.type === 'review')
     // Review after level 1 -> completed (level 1 < 4)
     expect(reviewNodes[0].status).toBe('completed')
     // Review after level 3 -> completed (level 3 < 4)

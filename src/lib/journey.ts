@@ -12,8 +12,8 @@ export interface JourneyNode {
 
 function computeStars(
   status: NodeStatus,
-  level: number,
-  currentLevel: number,
+  _level: number,
+  _currentLevel: number,
   currentPage: number,
   pagesPerLevel: number
 ): number {
