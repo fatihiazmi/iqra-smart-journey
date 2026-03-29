@@ -1,3 +1,4 @@
+import path from "path";
 import withPWAInit from "@ducanh2912/next-pwa";
 
 const pwaOptions = {
@@ -11,9 +12,11 @@ const pwaOptions = {
 const withPWA = withPWAInit(pwaOptions as any);
 
 const nextConfig = withPWA({
-  // Next.js 16 uses Turbopack by default; next-pwa injects webpack config,
-  // so we set an empty turbopack key to allow the build to proceed.
   turbopack: {},
+  webpack: (config: { resolve: { alias: Record<string, string> } }) => {
+    config.resolve.alias["@"] = path.resolve(process.cwd(), "src");
+    return config;
+  },
 });
 
 export default nextConfig;
