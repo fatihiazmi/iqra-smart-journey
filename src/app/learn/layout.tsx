@@ -57,7 +57,7 @@ export default function LearnLayout({
       <main className="flex-1 pb-24 overflow-y-auto">{children}</main>
 
       {/* Fixed bottom nav */}
-      <nav className="fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur-md border-t border-gray-200 flex justify-around pb-safe">
+      <nav className="fixed bottom-0 inset-x-0 z-50 bg-white/95 backdrop-blur-md border-t border-gray-200 flex justify-around pb-safe">
         {navItems.map((item) => {
           const isActive = pathname === item.href;
           return (

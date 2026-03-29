@@ -82,7 +82,7 @@ export default function LearnPage() {
 
   return (
     <div className="flex flex-col items-center px-4 pb-8">
-      <h1 className="text-2xl font-bold text-white drop-shadow-lg mt-4 mb-2 sticky top-0 z-10 bg-gradient-to-b from-sky-400/90 to-transparent py-3 w-full text-center">
+      <h1 className="text-3xl sm:text-4xl font-extrabold text-white drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] tracking-tight mt-6 mb-2 sticky top-0 z-10 bg-gradient-to-b from-sky-400 to-transparent py-4 w-full text-center">
         Kembara Iqra&apos;
       </h1>
       <JourneyMap
