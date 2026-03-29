@@ -1,16 +1,21 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { createClient as createAdminClient } from '@supabase/supabase-js'
 import { redirect } from 'next/navigation'
 
 export async function studentLogin(
   avatar: string,
   pin: string
 ): Promise<{ error?: string }> {
-  const supabase = await createClient()
+  // Use service role to find the student (bypasses RLS)
+  const adminSupabase = createAdminClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  )
 
-  // Find student profile matching avatar + pin + student role
-  const { data: profile, error } = await supabase
+  // Find student profile matching avatar + pin
+  const { data: profile, error } = await adminSupabase
     .from('profiles')
     .select('id')
     .eq('avatar', avatar)
@@ -22,12 +27,17 @@ export async function studentLogin(
     return { error: 'Cuba lagi!' }
   }
 
-  // Sign in using the student's email with a service-level approach
-  // For student PIN login, we use Supabase's signInWithPassword
-  // The admin pre-creates student accounts with email = `<avatar>.<pin>@student.local`
-  const studentEmail = `${avatar}.${pin}@student.local`
+  // Get the student's email from auth.users
+  const { data: authUser, error: authError } = await adminSupabase.auth.admin.getUserById(profile.id)
+
+  if (authError || !authUser?.user?.email) {
+    return { error: 'Cuba lagi!' }
+  }
+
+  // Sign in as the student using their actual email + PIN as password
+  const supabase = await createClient()
   const { error: signInError } = await supabase.auth.signInWithPassword({
-    email: studentEmail,
+    email: authUser.user.email,
     password: pin,
   })
 
